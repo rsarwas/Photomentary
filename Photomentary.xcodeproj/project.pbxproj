@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		599162AE298C686E00DB3011 /* TimerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599162AD298C686E00DB3011 /* TimerTestView.swift */; };
+		599162B0298C91B400DB3011 /* ImageTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599162AF298C91B400DB3011 /* ImageTestView.swift */; };
 		59D0C4B928C061D400375E46 /* PhotomentaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0C4B828C061D400375E46 /* PhotomentaryApp.swift */; };
 		59D0C4BB28C061D400375E46 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0C4BA28C061D400375E46 /* ContentView.swift */; };
 		59D0C4BD28C061D700375E46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59D0C4BC28C061D700375E46 /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		599162AD298C686E00DB3011 /* TimerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTestView.swift; sourceTree = "<group>"; };
+		599162AF298C91B400DB3011 /* ImageTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTestView.swift; sourceTree = "<group>"; };
 		59D0C4B528C061D400375E46 /* Photomentary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Photomentary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59D0C4B828C061D400375E46 /* PhotomentaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotomentaryApp.swift; sourceTree = "<group>"; };
 		59D0C4BA28C061D400375E46 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,6 +102,8 @@
 				59D0C4BA28C061D400375E46 /* ContentView.swift */,
 				59D0C4BC28C061D700375E46 /* Assets.xcassets */,
 				59D0C4BE28C061D700375E46 /* Preview Content */,
+				599162AD298C686E00DB3011 /* TimerTestView.swift */,
+				599162AF298C91B400DB3011 /* ImageTestView.swift */,
 			);
 			path = Photomentary;
 			sourceTree = "<group>";
@@ -257,8 +263,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				599162B0298C91B400DB3011 /* ImageTestView.swift in Sources */,
 				59D0C4BB28C061D400375E46 /* ContentView.swift in Sources */,
 				59D0C4B928C061D400375E46 /* PhotomentaryApp.swift in Sources */,
+				599162AE298C686E00DB3011 /* TimerTestView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
