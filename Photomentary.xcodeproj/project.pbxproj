@@ -11,7 +11,6 @@
 		599162B0298C91B400DB3011 /* ImageTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599162AF298C91B400DB3011 /* ImageTestView.swift */; };
 		59AFFEE0298F08ED00DE61B1 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AFFEDF298F08ED00DE61B1 /* DataModel.swift */; };
 		59AFFEE4298F09FC00DE61B1 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AFFEE3298F09FC00DE61B1 /* Photo.swift */; };
-		59AFFEE729905B6E00DE61B1 /* AMSMB2 in Frameworks */ = {isa = PBXBuildFile; productRef = 59AFFEE629905B6E00DE61B1 /* AMSMB2 */; };
 		59D0C4B928C061D400375E46 /* PhotomentaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0C4B828C061D400375E46 /* PhotomentaryApp.swift */; };
 		59D0C4BB28C061D400375E46 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0C4BA28C061D400375E46 /* ContentView.swift */; };
 		59D0C4BD28C061D700375E46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59D0C4BC28C061D700375E46 /* Assets.xcassets */; };
@@ -38,6 +37,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		59AFFEF62990664300DE61B1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		599162AD298C686E00DB3011 /* TimerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTestView.swift; sourceTree = "<group>"; };
 		599162AF298C91B400DB3011 /* ImageTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTestView.swift; sourceTree = "<group>"; };
@@ -60,7 +72,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59AFFEE729905B6E00DE61B1 /* AMSMB2 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +110,13 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		59AFFEE82990608E00DE61B1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		59D0C4AC28C061D400375E46 = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +124,7 @@
 				59D0C4C828C061D700375E46 /* PhotomentaryTests */,
 				59D0C4D228C061D700375E46 /* PhotomentaryUITests */,
 				59D0C4B628C061D400375E46 /* Products */,
+				59AFFEE82990608E00DE61B1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -167,6 +186,7 @@
 				59D0C4B128C061D400375E46 /* Sources */,
 				59D0C4B228C061D400375E46 /* Frameworks */,
 				59D0C4B328C061D400375E46 /* Resources */,
+				59AFFEF62990664300DE61B1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -174,7 +194,6 @@
 			);
 			name = Photomentary;
 			packageProductDependencies = (
-				59AFFEE629905B6E00DE61B1 /* AMSMB2 */,
 			);
 			productName = Photomentary;
 			productReference = 59D0C4B528C061D400375E46 /* Photomentary.app */;
@@ -249,7 +268,6 @@
 			);
 			mainGroup = 59D0C4AC28C061D400375E46;
 			packageReferences = (
-				59AFFEE529905B6E00DE61B1 /* XCRemoteSwiftPackageReference "AMSMB2" */,
 			);
 			productRefGroup = 59D0C4B628C061D400375E46 /* Products */;
 			projectDirPath = "";
@@ -639,25 +657,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		59AFFEE529905B6E00DE61B1 /* XCRemoteSwiftPackageReference "AMSMB2" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/amosavian/AMSMB2";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		59AFFEE629905B6E00DE61B1 /* AMSMB2 */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 59AFFEE529905B6E00DE61B1 /* XCRemoteSwiftPackageReference "AMSMB2" */;
-			productName = AMSMB2;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 59D0C4AD28C061D400375E46 /* Project object */;
 }
