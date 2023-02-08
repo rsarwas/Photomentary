@@ -44,7 +44,12 @@ struct ImageTestView: View {
         }
         .focusable()
         .onAppear() { model.start() }
+        #if os(tvOS)
         .onPlayPauseCommand() { playOrPause() }
+        #else
+        // This is just for testing
+        .onDeleteCommand() { playOrPause() }
+        #endif
         .onMoveCommand() { direction in
             print("move \(direction)")
             switch direction {
