@@ -21,15 +21,19 @@ final class DataModel: ObservableObject {
     private var photos: [Photo] = [Photo.defaultPhoto]
     private var displayTimer: Cancellable?
     
-    init() {
-        photos = [
-            Photo(path:"image1", caption:"2023-01-09 Wes in a Bucket"),
-            Photo(path:"image2", caption:"2023-01-13 Kayaking Around the North Side of Caye Caulker"),
-            Photo(path:"image3", caption:"2022-02-05 Hiking to Imperial Sand Dunes"),
-            Photo(path:"image4", caption:"2022-02-05 Hiking to Imperial Sand Dunes"),
-        ]
-    }
+//    init() {
+//        photos = [
+//            Photo(path:"image1", caption:"2023-01-09 Wes in a Bucket"),
+//            Photo(path:"image2", caption:"2023-01-13 Kayaking Around the North Side of Caye Caulker"),
+//            Photo(path:"image3", caption:"2022-02-05 Hiking to Imperial Sand Dunes"),
+//            Photo(path:"image4", caption:"2022-02-05 Hiking to Imperial Sand Dunes"),
+//        ]
+//    }
     
+    init() {
+        let loader = PhotoLoader()
+        photos = [loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo]
+    }
     func start() {
         displayTimer = Timer.TimerPublisher(interval: displayInterval, tolerance: 0.5, runLoop: .main, mode: .common)
             .autoconnect()
