@@ -69,10 +69,9 @@ struct ImageTestView: View {
         print("play/pause")
         if playing {
             model.stop()
-            // Show command menu
+            // Show command menu ?
         } else {
-            //TODO should trigger next photo immediately
-            // model.next()
+            model.next()
             model.start()
         }
         playing.toggle()

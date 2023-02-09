@@ -66,8 +66,6 @@ photo can be adjusted.
 * The caption should be at bottom of screen and not bottom of main image. This
   is important for really wide (pano) photos where image is centered vertically
   and the caption does not need to overlap the image
-* Resume currently starts the time then waits to change the image. It should
-  load the next image immediately, then start the time.
 * Consider Connect/disconnect to the SMB server in class init/deinit; Currently
   done on every image load, although it seems to be cached, because subsequent
   connects are fast.  Needs testing. Note: it takes about 34 seconds for the first
@@ -84,3 +82,6 @@ photo can be adjusted.
 * Write Tests
 * Check Memory usage
 * Consider compressing the photo list (4.9 vs. 0.5 MB) to speed up loading.
+* Rename "Photos/FIrst..." AND folders in there have a bad names. Name appear to
+  have a slash ('/') in them when viewed in finder as afp://, but the slash in
+  replaced with a ':' in the file list.
