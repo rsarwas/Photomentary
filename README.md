@@ -68,8 +68,6 @@ photo can be adjusted.
   and the caption does not need to overlap the image
 * Resume currently starts the time then waits to change the image. It should
   load the next image immediately, then start the time.
-* If we rewind, do not request a network load until we get to a new unplayed
-  image
 * Consider Connect/disconnect to the SMB server in class init/deinit; Currently
   done on every image load, although it seems to be cached, because subsequent
   connects are fast.  Needs testing. Note: it takes about 34 seconds for the first

@@ -23,6 +23,7 @@ final class DataModel: ObservableObject {
     private let loader = PhotoLoader()
     private var insertPointer = 1
     private let cacheSize = 50 //max count in photos
+    private var doNotDownloadCounter = 0 // a count of next() calls to wait before resuming downloads
     
     init() {
         loader.load(10) { [weak self] photo in
@@ -44,9 +45,12 @@ final class DataModel: ObservableObject {
         currentPointer += 1
         currentPointer %= photos.count
         currentPhoto = photos[currentPointer]
-        //TODO: do not download if doNotDownload counter > 0
-        loader.load(1) { [weak self] photo in
-            self?.add(photo: photo)
+        if doNotDownloadCounter == 0 {
+            loader.load(1) { [weak self] photo in
+                self?.add(photo: photo)
+            }
+        } else {
+            doNotDownloadCounter -= 1
         }
     }
     
@@ -56,7 +60,7 @@ final class DataModel: ObservableObject {
             currentPointer = photos.count - 1
         }
         currentPhoto = photos[currentPointer]
-        //TODO:  increment a doNotDownload counter
+        doNotDownloadCounter += 1
     }
     
     func add(photo: Photo) {
