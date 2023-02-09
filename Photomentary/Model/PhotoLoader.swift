@@ -21,6 +21,7 @@ class PhotoLoader {
     var photos: [Photo] = []
     
     init() {
+        print("Start PhotoLoader Init: \(Date())")
         if let fileURL = Bundle.main.url(forResource: "photos", withExtension: "txt") {
             if let fileContents = try? String(contentsOf: fileURL) {
                 paths = fileContents.split(separator:"\n").map { String($0) }
@@ -30,6 +31,7 @@ class PhotoLoader {
         } else {
             paths = []
         }
+        print("Paths loaded: \(Date())")
     }
     
     func load(_ n: Int, completion: @escaping (Photo) -> Void) {
@@ -78,16 +80,18 @@ class PhotoLoader {
     }
     
     func load(path: String, completion: @escaping (Photo) -> Void) -> Void {
+        print("load: Start: \(Date())")
         let caption = name(path: path) ?? path
         let fullPath = fullPath(path)
         let credential = URLCredential(user: user, password: password, persistence: .forSession)
         let smb = AMSMB2(url: server, credential: credential)!
-        
+        print("load: Connect: \(Date())")
         smb.connectShare(name: share, encrypted: encrypted) { (error) in
             if let error = error {
                 print("Connect failed: \(error)")
                 return
             }
+            print("load: Connected: \(Date())")
             smb.contents(atPath: fullPath, progress: { (progress, total) -> Bool in
                 //print("downloaded: \(progress) of \(total)")
                 return true
@@ -95,6 +99,7 @@ class PhotoLoader {
                 switch result {
                 case .success(let rdata):
                     let photo = Photo(path: path, caption: caption, data: rdata)
+                    print("load: Loaded: \(Date())")
                     completion(photo)
                 case .failure(let error):
                     print("Download of \(fullPath) failed: \(error.localizedDescription)")

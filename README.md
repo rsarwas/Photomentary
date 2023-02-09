@@ -72,7 +72,9 @@ photo can be adjusted.
   image
 * Consider Connect/disconnect to the SMB server in class init/deinit; Currently
   done on every image load, although it seems to be cached, because subsequent
-  connects are fast.  Needs testing.
+  connects are fast.  Needs testing. Note: it takes about 34 seconds for the first
+  connect to complete (there are about 14 connects pending before the connection
+  succeeds.)
 * Need App Icon
 * Need splash screen
 * Need initial image (cached in bundle) while we wait for the first network image.
