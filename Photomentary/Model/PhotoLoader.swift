@@ -6,10 +6,20 @@
 //
 
 import Foundation
+import AMSMB2
 
 class PhotoLoader {
+    // Adjust the next five constants as needed for your Network Storage
+    let server = URL(string: "smb://XXX")!
+    let share = "XXX"
+    let user = "XXX"
+    let password = "XXX"
+    let encrypted = false
+    
     let resource_name = "photos.txt"
     let paths: [String]
+    var photos: [Photo] = []
+    
     init() {
         if let fileURL = Bundle.main.url(forResource: "photos", withExtension: "txt") {
             if let fileContents = try? String(contentsOf: fileURL) {
@@ -22,8 +32,17 @@ class PhotoLoader {
         }
     }
     
-    func url(path: String) -> String {
-        return "smb://192.168.0.10/Photos/" + path
+    func load(_ n: Int, completion: @escaping (Photo) -> Void) {
+        for _ in 0..<n {
+            if let path = paths.randomElement() {
+                load(path: path, completion: completion)
+            }
+        }
+    }
+    
+    func fullPath(_ path: String) -> String {
+        //return "smb://192.168.0.10/Photos/" + path
+        return "Photos/" + path
     }
     
     func name(path: String?) -> String? {
@@ -45,7 +64,7 @@ class PhotoLoader {
         if path.hasPrefix("FIrst Day of School/") ||
             path.hasPrefix("Mom and Dad Slides") ||
             path.hasPrefix("2002/") {
-            return path.dropFirst(2)[..<lastSlash].replacingOccurrences(of: "/", with: " - ")
+            return path[..<lastSlash].replacingOccurrences(of: "/", with: " - ")
         }
         if path.hasPrefix("19") ||
             path.hasPrefix("20") {
@@ -58,9 +77,30 @@ class PhotoLoader {
         return path[..<lastDot].replacingOccurrences(of: "/", with: " - ")
     }
     
-    var photo: Photo {
-        let path = paths.randomElement()
-        let image = ["image1", "image2", "image3", "image4"].randomElement()
-        return Photo(path: image ?? "No Path", caption: name(path: path) ?? "No Name")
+    func load(path: String, completion: @escaping (Photo) -> Void) -> Void {
+        let caption = name(path: path) ?? path
+        let fullPath = fullPath(path)
+        let credential = URLCredential(user: user, password: password, persistence: .forSession)
+        let smb = AMSMB2(url: server, credential: credential)!
+        
+        smb.connectShare(name: share, encrypted: encrypted) { (error) in
+            if let error = error {
+                print("Connect failed: \(error)")
+                return
+            }
+            smb.contents(atPath: fullPath, progress: { (progress, total) -> Bool in
+                //print("downloaded: \(progress) of \(total)")
+                return true
+            }, completionHandler: { result in
+                switch result {
+                case .success(let rdata):
+                    let photo = Photo(path: path, caption: caption, data: rdata)
+                    completion(photo)
+                case .failure(let error):
+                    print("Download of \(fullPath) failed: \(error.localizedDescription)")
+                }
+            })
+            smb.disconnectShare(gracefully: true)
+        }
     }
 }

@@ -20,6 +20,8 @@
 		59D0C4CA28C061D700375E46 /* PhotomentaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0C4C928C061D700375E46 /* PhotomentaryTests.swift */; };
 		59D0C4D428C061D700375E46 /* PhotomentaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0C4D328C061D700375E46 /* PhotomentaryUITests.swift */; };
 		59D0C4D628C061D700375E46 /* PhotomentaryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D0C4D528C061D700375E46 /* PhotomentaryUITestsLaunchTests.swift */; };
+		59D191A02994BAD1000CE24F /* AMSMB2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59D1919D29945295000CE24F /* AMSMB2.framework */; };
+		59D191A12994BAD1000CE24F /* AMSMB2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 59D1919D29945295000CE24F /* AMSMB2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +39,20 @@
 			remoteGlobalIDString = 59D0C4B428C061D400375E46;
 			remoteInfo = Photomentary;
 		};
+		59D1919C29945295000CE24F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59D1919729945295000CE24F /* AMSMB2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 79FDFE5420AD439F00749FB5;
+			remoteInfo = AMSMB2;
+		};
+		59D1919E29945295000CE24F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59D1919729945295000CE24F /* AMSMB2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 79FDFE5D20AD439F00749FB5;
+			remoteInfo = AMSMB2Tests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +62,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				59D191A12994BAD1000CE24F /* AMSMB2.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,6 +86,9 @@
 		59D0C4CF28C061D700375E46 /* PhotomentaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotomentaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59D0C4D328C061D700375E46 /* PhotomentaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotomentaryUITests.swift; sourceTree = "<group>"; };
 		59D0C4D528C061D700375E46 /* PhotomentaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotomentaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		59D1919729945295000CE24F /* AMSMB2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AMSMB2.xcodeproj; path = ../../orepos/AMSMB2/AMSMB2.xcodeproj; sourceTree = "<group>"; };
+		59D191A229958530000CE24F /* photos.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = photos.py; sourceTree = "<group>"; };
+		59D191A32995856B000CE24F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59D191A02994BAD1000CE24F /* AMSMB2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +146,9 @@
 		59D0C4AC28C061D400375E46 = {
 			isa = PBXGroup;
 			children = (
+				59D191A32995856B000CE24F /* README.md */,
+				59D191A229958530000CE24F /* photos.py */,
+				59D1919729945295000CE24F /* AMSMB2.xcodeproj */,
 				59AFFF0429934ACB00DE61B1 /* photos.txt */,
 				59D0C4B728C061D400375E46 /* Photomentary */,
 				59D0C4C828C061D700375E46 /* PhotomentaryTests */,
@@ -180,6 +204,15 @@
 				59D0C4D528C061D700375E46 /* PhotomentaryUITestsLaunchTests.swift */,
 			);
 			path = PhotomentaryUITests;
+			sourceTree = "<group>";
+		};
+		59D1919829945295000CE24F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				59D1919D29945295000CE24F /* AMSMB2.framework */,
+				59D1919F29945295000CE24F /* AMSMB2Tests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,6 +310,12 @@
 			);
 			productRefGroup = 59D0C4B628C061D400375E46 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 59D1919829945295000CE24F /* Products */;
+					ProjectRef = 59D1919729945295000CE24F /* AMSMB2.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				59D0C4B428C061D400375E46 /* Photomentary */,
@@ -285,6 +324,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		59D1919D29945295000CE24F /* AMSMB2.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AMSMB2.framework;
+			remoteRef = 59D1919C29945295000CE24F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59D1919F29945295000CE24F /* AMSMB2Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AMSMB2Tests.xctest;
+			remoteRef = 59D1919E29945295000CE24F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		59D0C4B328C061D400375E46 /* Resources */ = {

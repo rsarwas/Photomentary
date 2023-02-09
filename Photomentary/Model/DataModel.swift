@@ -11,7 +11,7 @@ import Combine
 
 final class DataModel: ObservableObject {
     @Published var currentPhoto = Photo.defaultPhoto
-    @Published var displayInterval: TimeInterval = 2 {
+    @Published var displayInterval: TimeInterval = 6 {
         didSet {
             stop()
             start()
@@ -20,34 +20,34 @@ final class DataModel: ObservableObject {
     private var currentPointer: Int = 0
     private var photos: [Photo] = [Photo.defaultPhoto]
     private var displayTimer: Cancellable?
-    
-//    init() {
-//        photos = [
-//            Photo(path:"image1", caption:"2023-01-09 Wes in a Bucket"),
-//            Photo(path:"image2", caption:"2023-01-13 Kayaking Around the North Side of Caye Caulker"),
-//            Photo(path:"image3", caption:"2022-02-05 Hiking to Imperial Sand Dunes"),
-//            Photo(path:"image4", caption:"2022-02-05 Hiking to Imperial Sand Dunes"),
-//        ]
-//    }
+    private let loader = PhotoLoader()
+    private var insertPointer = 1
+    private let cacheSize = 50 //max count in photos
     
     init() {
-        let loader = PhotoLoader()
-        photos = [loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo, loader.photo]
+        loader.load(10) { [weak self] photo in
+            self?.photos.append(photo)
+        }
     }
+    
     func start() {
         displayTimer = Timer.TimerPublisher(interval: displayInterval, tolerance: 0.5, runLoop: .main, mode: .common)
             .autoconnect()
             .sink() { [weak self] _ in self?.next() }
     }
-
+    
     func stop() {
         displayTimer?.cancel()
     }
-
+    
     func next() {
         currentPointer += 1
         currentPointer %= photos.count
         currentPhoto = photos[currentPointer]
+        //TODO: do not download if doNotDownload counter > 0
+        loader.load(1) { [weak self] photo in
+            self?.add(photo: photo)
+        }
     }
     
     func previous() {
@@ -56,6 +56,17 @@ final class DataModel: ObservableObject {
             currentPointer = photos.count - 1
         }
         currentPhoto = photos[currentPointer]
+        //TODO:  increment a doNotDownload counter
     }
-
+    
+    func add(photo: Photo) {
+        if photos.count < cacheSize {
+            photos.append(photo)
+            insertPointer += 1
+        } else {
+            insertPointer %= cacheSize
+            photos[insertPointer] = photo
+            insertPointer += 1
+        }
+    }
 }

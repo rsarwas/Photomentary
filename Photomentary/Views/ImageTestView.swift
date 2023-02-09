@@ -29,13 +29,13 @@ struct ImageTestView: View {
     
     var body: some View {
         ZStack {
-            Image(model.currentPhoto.path)
+            model.currentPhoto.image
                 .resizable()
                 .edgesIgnoringSafeArea(.all)
                 .blur(radius: 40)
                 .opacity(0.4)
             ZStack(alignment:.bottom) {
-                Image(model.currentPhoto.path)
+                model.currentPhoto.image
                     .resizable()
                     .scaledToFit()
                 ImageCaption(text: model.currentPhoto.caption)
@@ -47,7 +47,7 @@ struct ImageTestView: View {
         #if os(tvOS)
         .onPlayPauseCommand() { playOrPause() }
         #else
-        // This is just for testing
+        // FIXME: This is just for testing
         .onDeleteCommand() { playOrPause() }
         #endif
         .onMoveCommand() { direction in
@@ -71,6 +71,8 @@ struct ImageTestView: View {
             model.stop()
             // Show command menu
         } else {
+            //TODO should trigger next photo immediately
+            // model.next()
             model.start()
         }
         playing.toggle()
