@@ -17,33 +17,39 @@ class PhotoLoader {
     let encrypted = false
     
     let resource_name = "photos.txt"
-    let paths: [String]
-    var photos: [Photo] = []
+    private var paths: [String] = []
+    private var photos: [Photo] = []
     
-    init() {
-        print("Start PhotoLoader Init: \(Date())")
-        if let fileURL = Bundle.main.url(forResource: "photos", withExtension: "txt") {
-            if let fileContents = try? String(contentsOf: fileURL) {
-                paths = fileContents.split(separator:"\n").map { String($0) }
-            } else {
-                paths = []
-            }
-        } else {
-            paths = []
-        }
-        print("Paths loaded: \(Date())")
+    private var smb: AMSMB2?
+    
+    deinit {
+        smb?.disconnectShare(gracefully: true)
     }
     
-    func load(_ n: Int, completion: @escaping (Photo) -> Void) {
-        for _ in 0..<n {
-            if let path = paths.randomElement() {
-                load(path: path, completion: completion)
+    func connect() async -> Bool {
+        let credential = URLCredential(user: user, password: password, persistence: .forSession)
+        smb = AMSMB2(url: server, credential: credential)
+        guard let smb = smb else { return false }
+        return await withCheckedContinuation { continuation in
+            smb.connectShare(name: share, encrypted: encrypted) { error in
+                continuation.resume(returning: error == nil)
             }
         }
     }
-    
+
+    func loadPathsFromBundle() async -> Bool {
+        await self.paths = Task() {
+            if let fileURL = Bundle.main.url(forResource: "photos", withExtension: "txt") {
+                if let fileContents = try? String(contentsOf: fileURL) {
+                    return fileContents.split(separator:"\n").map { String($0) }
+                }
+            }
+            return []
+        }.value
+        return !self.paths.isEmpty
+    }
+
     func fullPath(_ path: String) -> String {
-        //return "smb://192.168.0.10/Photos/" + path
         return "Photos/" + path
     }
     
@@ -79,33 +85,31 @@ class PhotoLoader {
         return path[..<lastDot].replacingOccurrences(of: "/", with: " - ")
     }
     
-    func load(path: String, completion: @escaping (Photo) -> Void) -> Void {
-        print("load: Start: \(Date())")
+    func load() async -> Photo? {
+        guard let path = paths.randomElement() else { return nil }
+        return await load(path: path)
+    }
+    
+    func load(path: String) async -> Photo? {
+        print("load: \(path)")
         let caption = name(path: path) ?? path
         let fullPath = fullPath(path)
-        let credential = URLCredential(user: user, password: password, persistence: .forSession)
-        let smb = AMSMB2(url: server, credential: credential)!
-        print("load: Connect: \(Date())")
-        smb.connectShare(name: share, encrypted: encrypted) { (error) in
-            if let error = error {
-                print("Connect failed: \(error)")
-                return
-            }
-            print("load: Connected: \(Date())")
+        guard let smb = smb else { return nil }
+        return await withCheckedContinuation { continuation in
             smb.contents(atPath: fullPath, progress: { (progress, total) -> Bool in
-                //print("downloaded: \(progress) of \(total)")
+                //print("load: downloaded: \(progress) of \(total)")
                 return true
             }, completionHandler: { result in
                 switch result {
                 case .success(let rdata):
                     let photo = Photo(path: path, caption: caption, data: rdata)
                     print("load: Loaded: \(Date())")
-                    completion(photo)
+                    continuation.resume(returning: photo)
                 case .failure(let error):
-                    print("Download of \(fullPath) failed: \(error.localizedDescription)")
+                    print("load: Download of \(fullPath) failed: \(error.localizedDescription)")
+                    continuation.resume(returning: nil)
                 }
             })
-            smb.disconnectShare(gracefully: true)
         }
     }
 }

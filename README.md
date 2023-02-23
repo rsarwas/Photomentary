@@ -60,17 +60,9 @@ photo can be adjusted.
 * Finish the UI for all platforms
 * Turn off the screen saver when the app is running (user configurable?)
 * Load the file list from the Network server (rather than bundling it)
-* Consider doing network transfer and image creation on a background thread.
-  It is currently done asyncronously in chuncks, and seems to not be impacting
-  the UI.
 * The caption should be at bottom of screen and not bottom of main image. This
   is important for really wide (pano) photos where image is centered vertically
   and the caption does not need to overlap the image
-* Consider Connect/disconnect to the SMB server in class init/deinit; Currently
-  done on every image load, although it seems to be cached, because subsequent
-  connects are fast.  Needs testing. Note: it takes about 34 seconds for the first
-  connect to complete (there are about 14 connects pending before the connection
-  succeeds.)
 * Need App Icon
 * Need splash screen
 * Need initial image (cached in bundle) while we wait for the first network image.

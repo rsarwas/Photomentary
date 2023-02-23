@@ -43,7 +43,7 @@ struct ImageTestView: View {
             .edgesIgnoringSafeArea(.all)
         }
         .focusable()
-        .onAppear() { model.start() }
+        .onAppear() { Task { await model.load() } }
         #if os(tvOS)
         .onPlayPauseCommand() { playOrPause() }
         #else
