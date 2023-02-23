@@ -69,7 +69,7 @@ class PhotoLoader {
             return path.dropFirst(18)[..<lastDot].replacingOccurrences(of: "/", with: " - ")
         }
 
-        if path.hasPrefix("FIrst Day of School/") ||
+        if path.hasPrefix("First Day of School/") ||
             path.hasPrefix("Mom and Dad Slides") ||
             path.hasPrefix("2002/") {
             return path[..<lastSlash].replacingOccurrences(of: "/", with: " - ")

@@ -22,7 +22,7 @@ struct Photo {
 extension Photo {
     static var defaultPhoto: Photo {
         Photo(
-            path: "image1",
+            path: "Splash",
             caption: "Regan and Jenny's Photo Album",
             data: Data()
         )

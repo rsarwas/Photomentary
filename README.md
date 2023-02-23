@@ -65,15 +65,9 @@ photo can be adjusted.
   and the caption does not need to overlap the image
 * Need App Icon
 * Need splash screen
-* Need initial image (cached in bundle) while we wait for the first network image.
-* It currently takes several seconds to start downloading the first image.  What's
-  happening, and how can it happen sooner?
 * Save the changes to AMSMB2 library and request pull to upstream
 * Modify the AMSMB2 library to simplify use (XCFramework or Swift Package). May
   need to separate the libsmb C library from the swift code.
 * Write Tests
 * Check Memory usage
 * Consider compressing the photo list (4.9 vs. 0.5 MB) to speed up loading.
-* Rename "Photos/FIrst..." AND folders in there have a bad names. Name appear to
-  have a slash ('/') in them when viewed in finder as afp://, but the slash in
-  replaced with a ':' in the file list.

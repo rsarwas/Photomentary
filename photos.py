@@ -14,7 +14,8 @@
 #  find . -type f -not \( \( -name "*.[J|j]*" -or -name "*.[H|h]*" \) -or \( -name "*.[p|P][n|N]*" -or -name "*.[t|T][i|I]*" \) \) -print  > ~/Desktop/not_photos.txt
 
 # Run the photos.txt file through the following command to remove the leading "./"
-#   mv photos.txt photos_orig.txt; sed -e 's!^\./!!g photos_orig > photos.txt
+#   mv photos.txt photos_orig.txt; sed -e 's!^\./!!g' photos_orig.txt > photos.txt
+#   sed '/XHIDEX/d' photos.txt > photos2.txt; mv photos2.txt photos.txt
 # Then copy photos.txt to the root of the Photomentary repo, to be included with the executable bundle
 
 # Changes to the captioning rules need to be translated to the Swift code in Photomentary
