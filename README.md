@@ -58,13 +58,12 @@ photo can be adjusted.
 * Add UI to adjust the delay interval
 * Save the delay interval to the user's preferences
 * Finish the UI for all platforms
-* Turn off the screen saver when the app is running (user configurable?)
+* Make app timeout configurable (Allow screen/power saver: Yes/no)
 * Load the file list from the Network server (rather than bundling it)
 * The caption should be at bottom of screen and not bottom of main image. This
   is important for really wide (pano) photos where image is centered vertically
   and the caption does not need to overlap the image
-* Need App Icon
-* Need splash screen
+* FIx size of splash screen
 * Save the changes to AMSMB2 library and request pull to upstream
 * Modify the AMSMB2 library to simplify use (XCFramework or Swift Package). May
   need to separate the libsmb C library from the swift code.
