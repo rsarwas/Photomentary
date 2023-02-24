@@ -41,15 +41,21 @@ struct ImageTestView: View {
                 ImageCaption(text: model.currentPhoto.caption)
             }
             .edgesIgnoringSafeArea(.all)
+            #if os(macOS)
+            Group {
+                Button(action: { playOrPause() }) {}
+                    .keyboardShortcut(.space, modifiers: [])
+                Button(action: { model.previous() }) {}
+                    .keyboardShortcut(.leftArrow, modifiers: [])
+                Button(action: { model.next() }) {}
+                    .keyboardShortcut(.rightArrow, modifiers: [])
+            }.opacity(0)
+            #endif
         }
         .focusable()
         .onAppear() { Task { await model.load() } }
         #if os(tvOS)
         .onPlayPauseCommand() { playOrPause() }
-        #else
-        // FIXME: This is just for testing
-        .onDeleteCommand() { playOrPause() }
-        #endif
         .onMoveCommand() { direction in
             print("move \(direction)")
             switch direction {
@@ -58,6 +64,7 @@ struct ImageTestView: View {
             default: break // do nothing
         }
         }
+        #endif
         .onExitCommand() {
             print("menu")
             model.stop()
