@@ -29,8 +29,8 @@ final class DataModel: ObservableObject {
     private var photos: [Photo] = [Photo.defaultPhoto]
     private var displayTimer: Cancellable?
     private let loader = PhotoLoader()
-    private var insertPointer = 1
-    private let cacheSize = 50 //max count in photos
+    private var insertPointer = 1 // After the default (splash) photo
+    private let cacheSize = 40 // Max count in photos
     private var doNotDownloadCounter = 0 // a count of next() calls to wait before resuming downloads
     
     func load() async {
@@ -49,18 +49,13 @@ final class DataModel: ObservableObject {
         }
         if ready {
             DispatchQueue.main.async { self.status = .loading }
-            print("loading 10 photos")
-            for _ in 0..<10 {
+            //print("loading \(cacheSize/2) photos")
+            //Preload half the images the cache can hold
+            // the current photo should always be halfway between the oldest viewed image, and the newest unviewed image
+            for _ in 0..<(cacheSize/2) {
                 if let photo = await self.loader.load() {
-                    // Us main thread to synchronize updates to photos array
-                    DispatchQueue.main.async {
-                        self.photos.append(photo)
-                        if self.photos.count == 2 {
-                            self.status = .ready
-                            self.next()
-                            self.start()
-                        }
-                    }
+                    // Use main thread to synchronize updates to photos array
+                    DispatchQueue.main.async { self.add(photo: photo) }
                 }
             }
         }
@@ -77,9 +72,17 @@ final class DataModel: ObservableObject {
     }
     
     func next() {
-        print("Call next, with \(photos.count) photos")
+        // insertPointer the count of array before it is full,
+        // then it is the location of the oldest (already viewed photo
+        // currentPointer whould always be less (with wrapping) than insertPointer
+        if (currentPointer + 1) % photos.count == insertPointer {
+            print("Waiting for new photos to load. currentPointer: \(currentPointer), insertPointer: \(insertPointer), photos.count: \(photos.count), cacheSize: \(cacheSize)")
+            //TODO: Display message on screen
+            return
+        }
         currentPointer += 1
         currentPointer %= photos.count
+        //print("Next - Show \(currentPointer)/\(photos.count); oldest photo at \(insertPointer)")
         currentPhoto = photos[currentPointer]
         if doNotDownloadCounter == 0 {
             Task {
@@ -94,22 +97,37 @@ final class DataModel: ObservableObject {
     }
     
     func previous() {
+        if currentPointer == insertPointer || (photos.count < cacheSize && currentPointer == 0) {
+            print("Can't back up any further. currentPointer: \(currentPointer), insertPointer: \(insertPointer), photos.count: \(photos.count), cacheSize: \(cacheSize)")
+            //TODO: write message to screen
+            return
+        }
         currentPointer -= 1
         if currentPointer < 0 {
             currentPointer = photos.count - 1
         }
         currentPhoto = photos[currentPointer]
+        //print("Previous - Show \(currentPointer)/\(photos.count); oldest photo at \(insertPointer)")
         doNotDownloadCounter += 1
     }
     
     func add(photo: Photo) {
         if photos.count < cacheSize {
+            //print("Adding \"\(photo.caption)\" after \(photos.count) of \(cacheSize)")
             photos.append(photo)
-            insertPointer += 1
-        } else {
+            insertPointer = photos.count
             insertPointer %= cacheSize
+        } else {
+            //print("Adding \"\(photo.caption)\" at \(insertPointer) out of \(photos.count)")
             photos[insertPointer] = photo
             insertPointer += 1
+            insertPointer %= cacheSize
+        }
+        // When we get the first real photo, start the automatic paging
+        if self.photos.count == 2 {
+            self.status = .ready
+            self.next()
+            self.start()
         }
     }
 }

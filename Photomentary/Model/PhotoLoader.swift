@@ -91,7 +91,7 @@ class PhotoLoader {
     }
     
     func load(path: String) async -> Photo? {
-        print("load: \(path)")
+        //print("load: \(path)")
         let caption = name(path: path) ?? path
         let fullPath = fullPath(path)
         guard let smb = smb else { return nil }
@@ -103,10 +103,10 @@ class PhotoLoader {
                 switch result {
                 case .success(let rdata):
                     let photo = Photo(path: path, caption: caption, data: rdata)
-                    print("load: Loaded: \(Date())")
+                    //print("load: Loaded: \(Date())")
                     continuation.resume(returning: photo)
                 case .failure(let error):
-                    print("load: Download of \(fullPath) failed: \(error.localizedDescription)")
+                    print("ERROR: Download of \(fullPath) failed: \(error.localizedDescription)")
                     continuation.resume(returning: nil)
                 }
             })
