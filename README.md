@@ -70,3 +70,5 @@ photo can be adjusted.
 * Write Tests
 * Check Memory usage
 * Consider compressing the photo list (4.9 vs. 0.5 MB) to speed up loading.
+* Provide option to load just photos from a single year
+* Provide option to stop on a photo and see other photos in the same folder (date/event)
