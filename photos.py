@@ -7,15 +7,19 @@
 #  extension_count(_filename_) to count files by type
 #  caption(_filename_) to see the captions automatically generated
 # All Files
-#  find . -type f  -print > ~/Desktop/all_files.txt
+#  find . -type f  -print > all_files.txt
 # Photos:
-#  find . -type f \( \( -name "*.[J|j]*" -or -name "*.[H|h]*" \) -or \( -name "*.[p|P][n|N]*" -or -name "*.[t|T][i|I]*" \) \) -print > ~/Desktop/photos.txt
+#  find . -type f \( \( \( -name "*.[J|j]*" -or -name "*.[H|h]*" \) -or \( -name "*.[p|P][n|N]*" -or -name "*.[t|T][i|I]*" \) \) -or \( -name "*.bmp" -or -name "*.gif" \) \) -print > photos.txt
 # Not Photos:
-#  find . -type f -not \( \( -name "*.[J|j]*" -or -name "*.[H|h]*" \) -or \( -name "*.[p|P][n|N]*" -or -name "*.[t|T][i|I]*" \) \) -print  > ~/Desktop/not_photos.txt
+#  find . -type f -not \( \( \( -name "*.[J|j]*" -or -name "*.[H|h]*" \) -or \( -name "*.[p|P][n|N]*" -or -name "*.[t|T][i|I]*" \) \) -or \( -name "*.bmp" -or -name "*.gif" \) \) -print  > not_photos.txt
+#  ignore the following files in not_photos:
+#   @eaDir (macos resource file in SMB), .pdf, .psd (photoshop), .xcf (GIMP), .alb (scrapbook album), .sbp (scrapbook page), .pub (Microsoft publisher) 
+#  sed '/@eaDir/d' ~/Desktop/not_photos.txt | sed '/.pdf$/d' | sed '/.psd$/d' | sed '/.xcf$/d' | sed '/.alb$/d' | sed '/.sbp$/d' | sed '/.pub$/d' | sort > ~/Desktop/not_photos2.txt
+#  Review file for junk files to delete/move and image files to include in find command above for photos.txt
 
-# Run the photos.txt file through the following command to remove the leading "./"
-#   mv photos.txt photos_orig.txt; sed -e 's!^\./!!g' photos_orig.txt > photos.txt
-#   sed '/XHIDEX/d' photos.txt > photos2.txt; mv photos2.txt photos.txt
+# Run the photos.txt file through the following command to remove the leading "./" and other unwanted lines
+#    sed -e 's!^\./!!g' photos.txt | sed '/XHIDEX/d' | sed '/@eaDir/d' > photos2.txt
+#    mv photos2.txt photos.txt
 # Then copy photos.txt to the root of the Photomentary repo, to be included with the executable bundle
 
 # Changes to the captioning rules need to be translated to the Swift code in Photomentary
