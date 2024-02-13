@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        //TimerTestView(delay:5)
-        ImageTestView()        
-    }
+  var body: some View {
+    //TimerTestView(delay:5)
+    ImageTestView()
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+  static var previews: some View {
+    ContentView()
+  }
 }
