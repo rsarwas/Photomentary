@@ -58,31 +58,48 @@ class PhotoLoader {
 
     guard let path = path else { return nil }
     guard let lastDot = path.lastIndex(of: ".") else { return path }
+    guard let firstSlash = path.firstIndex(of: "/") else { return path }
     guard let lastSlash = path.lastIndex(of: "/") else { return path }
 
-    if path.contains("Traci's Web Page") {
-      return path.dropFirst(5)[..<lastSlash].replacingOccurrences(of: "/", with: " - ")
-    }
-    if path.hasPrefix("2002/Spring Mexico Trip/") {
-      return path.dropFirst(2)[..<lastDot].replacingOccurrences(of: "/", with: " - ")
-    }
-    if path.hasPrefix("Good Old Pictures/") {
-      return path.dropFirst(18)[..<lastDot].replacingOccurrences(of: "/", with: " - ")
+    func startsWithYear(_ path: String) -> Bool {
+      guard path.hasPrefix("19") || path.hasPrefix("20") else { return false }
+      guard path.dropFirst(4).hasPrefix("/") else { return false }
+      return true
     }
 
-    if path.hasPrefix("First Day of School/") || path.hasPrefix("Mom and Dad Slides")
-      || path.hasPrefix("2002/")
-    {
+    func isTypical(_ path: String) -> Bool {
+      return path.dropFirst(5).starts(with: path[..<firstSlash])
+    }
+
+    func named_photo(in path: String) -> Bool {
+      let filename = URL(fileURLWithPath: path).lastPathComponent
+      return !filename.starts(with: "IMG") && !filename.starts(with: "P000")
+        && !filename.starts(with: "p_v1")
+    }
+
+    if startsWithYear(path) {
+      if isTypical(path) {
+        // year/year-mon-day description{/subfolder}/file.ext -> year-mon-day description{ - subfolder}
+        let start = path.index(after: firstSlash)
+        return path[start..<lastSlash].replacingOccurrences(of: "/", with: " - ")
+      } else {
+        // Exceptions to typical year folder
+        // 2002/activity/subactivity/../filename.ext -> 2002 - activity - subactivity - ..
+        if named_photo(in: path) {
+          return path[..<lastDot].replacingOccurrences(of: "/", with: " - ")
+        } else {
+          return path[..<lastSlash].replacingOccurrences(of: "/", with: " - ")
+        }
+      }
+    }
+
+    // default
+    // blah/blab/blah.ext -> blah - blah - blah
+    if named_photo(in: path) {
+      return path[..<lastDot].replacingOccurrences(of: "/", with: " - ")
+    } else {
       return path[..<lastSlash].replacingOccurrences(of: "/", with: " - ")
     }
-    if path.hasPrefix("19") || path.hasPrefix("20") {
-      let path2 = path[..<lastSlash]
-      guard let start = path2.lastIndex(of: "/") else { return String(path2) }
-      let start1 = path2.index(after: start)
-      return String(path2[start1..<path2.endIndex])
-    }
-    // default
-    return path[..<lastDot].replacingOccurrences(of: "/", with: " - ")
   }
 
   func load() async -> Photo? {
